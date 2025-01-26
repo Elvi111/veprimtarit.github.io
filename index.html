@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veprimtaritë Praktike - Gjimnazi Sami Frashëri</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .activity-form {
+            margin-bottom: 20px;
+        }
+        .activity-form input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .activity-form button {
+            padding: 10px 15px;
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .activity-form button:hover {
+            background-color: #005bb5;
+        }
+        .activities-list {
+            margin-top: 20px;
+        }
+        .activity-item {
+            background-color: #e6f2ff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #b3d9ff;
+            border-radius: 4px;
+        }
+        .activity-item img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Veprimtaritë Praktike - Gjimnazi Sami Frashëri</h1>
+    </header>
+
+    <div class="container">
+        <h2 style="text-align: center; color: #333;">Shto Veprimtari</h2>
+        <form class="activity-form" id="activityForm">
+            <input type="text" id="activityName" placeholder="Shkruaj emrin e veprimtarisë" required>
+            <input type="text" id="activityDescription" placeholder="Përshkrimi i veprimtarisë" required>
+            <input type="file" id="activityImage" accept="image/*">
+            <button type="submit">Shto Veprimtari</button>
+        </form>
+
+        <h3 style="text-align: center; color: #333;">Veprimtaritë e Shtuara</h3>
+        <div class="activities-list" id="activitiesList">
+            <!-- Veprimtaritë do të shfaqen këtu -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('activityForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('activityName').value.trim();
+            const description = document.getElementById('activityDescription').value.trim();
+            const imageInput = document.getElementById('activityImage');
+
+            if (name && description) {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `<strong>${name}</strong><p>${description}</p>`;
+
+                if (imageInput.files && imageInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        activityItem.appendChild(img);
+                    };
+                    reader.readAsDataURL(imageInput.files[0]);
+                }
+
+                const activitiesList = document.getElementById('activitiesList');
+                activitiesList.insertBefore(activityItem, activitiesList.firstChild);
+
+                document.getElementById('activityForm').reset();
+                console.log(`Veprimtaria "${name}" u shtua me sukses.`);
+            } else {
+                alert('Ju lutem plotësoni të gjitha fushat për të shtuar një veprimtari.');
+            }
+        });
+
+        // Kontroll për DOM dhe Event Listener funksional
+        console.log('Script u ngarkua dhe Event Listener është aktiv.');
+    </script>
+</body>
+</html>
